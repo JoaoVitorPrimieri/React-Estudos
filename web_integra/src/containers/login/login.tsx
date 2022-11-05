@@ -8,6 +8,7 @@ import * as yup from 'yup';
 import { Form, Header, LoginContainer } from './login.styles';
 import { LoginFormValues } from './login.types';
 import { Fields } from './flelds/fields';
+import useLogin from './useLogin';
 
 const Login = () => {
   const schema = yup.object({
@@ -15,13 +16,7 @@ const Login = () => {
     password: yup.string().required('Senha obrigatória'),
   });
 
-  const methods = useForm<LoginFormValues>({
-    resolver: yupResolver(schema),
-  });
-
-  const _handleLogin = methods.handleSubmit((data) => {
-    console.log(data);
-  });
+  const { handleLogin, methods } = useLogin();
 
   return (
     <LoginContainer>
@@ -35,7 +30,7 @@ const Login = () => {
         </div>
       </Header>
       <FormProvider {...methods}>
-        <Form onSubmit={_handleLogin}>
+        <Form onSubmit={handleLogin}>
           <Fields />
         </Form>
       </FormProvider>

@@ -1,6 +1,10 @@
 import { ThemeProvider, StyledEngineProvider, createTheme } from '@mui/material';
+import { SnackbarProvider } from 'notistack';
 import Router from './routes/router';
 import { GlobalStyles } from './styles/GlobalStyles';
+
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 function App() {
   const theme = createTheme({
@@ -46,8 +50,19 @@ function App() {
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
-        <GlobalStyles />
-        <Router />
+        <SnackbarProvider
+          maxSnack={3}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          autoHideDuration={2000}
+        >
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <GlobalStyles />
+            <Router />
+          </LocalizationProvider>
+        </SnackbarProvider>
       </ThemeProvider>
     </StyledEngineProvider>
   );
